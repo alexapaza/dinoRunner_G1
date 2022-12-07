@@ -1,17 +1,22 @@
 import pygame
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
 
-class Game:
+from dino_runner.utils.constants import BG,ICON,SCREEN_HEIGHT, SCREEN_WIDTH,TITLE,FPS
+from dino_runner.components.dinosaur.dinosaur import Dinosaur
+from dino_runner.components.obstacle.obstacleManager import ObstacleManager
+
+class Game():
     def __init__(self):
         pygame.init()
         pygame.display.set_caption(TITLE)
         pygame.display.set_icon(ICON)
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH,SCREEN_HEIGHT))
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
         self.playing = False
         self.game_speed = 20
         self.x_pos_bg = 0
         self.y_pos_bg = 380
+        self.player = Dinosaur()
+        self.obstacle_manager = ObstacleManager()
 
     def run(self):
         self.playing = True
@@ -19,30 +24,34 @@ class Game:
             self.events()
             self.update()
             self.draw()
-        pygame.quit()    
-        
+        pygame.quit()
 
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.playing = False
 
+
     def update(self):
-        pass
+        user_input = pygame.key.get_pressed()
+        self.player.update(user_input)
+        self.obstacle_manager.update(self)
 
     def draw(self):
         self.clock.tick(FPS)
-        self.screen.fill((255,255,255))
-        self.draw_background()    
+        self.screen.fill( (255,255,255) )
+        self.draw_background()
+        self.player.draw(self.screen)
+        self.obstacle_manager.draw(self.screen)
         pygame.display.update()
-        pygame.display.flip()
+        pygame.display.flip() 
 
     def draw_background(self):
         image_with = BG.get_width()
-        self.screen.blit(BG, (self.x_pos_bg, self.y_pos_bg))
-        self.screen.blit(BG, (image_with + self.x_pos_bg, self.y_pos_bg))
+        self.screen.blit(BG, (self.x_pos_bg,self.y_pos_bg))
+        self.screen.blit(BG, ( image_with + self.x_pos_bg,self.y_pos_bg))
 
         if (self.x_pos_bg <= -image_with):
-            self.screen.blit(BG, (image_with + self.x_pos_bg, self.y_pos_bg))
+            self.screen.blit(BG, ( image_with + self.x_pos_bg,self.y_pos_bg))  
             self.x_pos_bg = 0
-        self.x_pos_bg = self.x_pos_bg - self.game_speed
+            self.x_pos_bg = self.x_pos_bg - self.game_speed

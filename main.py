@@ -6,4 +6,4 @@ if __name__ == "__main__":
     #game.run()
     while game.running:
         if not game.playing:
-            game.show_menu()
+            game.show_menu()  

@@ -132,3 +132,4 @@ dmypy.json
 .idea
 .DS_Store
 dino_venv/
+dino_runner/components/game.py

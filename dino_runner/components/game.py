@@ -12,8 +12,8 @@ class Game:
         pygame.init()
         pygame.display.set_caption(TITLE)
         pygame.display.set_icon(ICON)
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT)) #-----> agregamos el ancho y largo que qeremos la ventana
-        self.clock = pygame.time.Clock() # ----> tiempo
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.clock = pygame.time.Clock() 
         self.playing = False
         self.game_speed = 30
         self.x_pos_bg = 0
